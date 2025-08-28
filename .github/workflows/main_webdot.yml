@@ -21,18 +21,18 @@ jobs:
           dotnet-version: '8.x'
 
       - name: Restore dependencies
-        run: dotnet restore src/Web/Web.csproj
+        run: dotnet restore src/WebApp/WebApp.csproj
 
       - name: Build with dotnet
-        run: dotnet build src/Web/Web.csproj --configuration Release
+        run: dotnet build src/WebApp/WebApp.csproj --configuration Release
 
       - name: Publish
-        run: dotnet publish src/Web/Web.csproj -c Release -f net8.0 -o ./publish
+        run: dotnet publish src/WebApp/WebApp.csproj -c Release -f net8.0 -o ./publish
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
-          name: webapp
+          name: .net-app
           path: ./publish
 
   deploy:
@@ -46,7 +46,7 @@ jobs:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
-          name: webapp
+          name: .net-app
 
       - name: Login to Azure
         uses: azure/login@v2
